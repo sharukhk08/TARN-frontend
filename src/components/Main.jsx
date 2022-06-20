@@ -9,7 +9,8 @@ const Main = () => {
     created_at: new Date().toLocaleString(),
     updated_at: new Date().toLocaleString(),
   };
-  const APIURL = "http://192.168.43.220:4000/api/v1";
+  // const APIURL = "http://192.168.43.220:4000/api/v1";
+  const APIURL = "https://task-node-react.herokuapp.com/api/v1";
   const [isLoading, setLoading] = useState(false);
   const [isAddTodoLoading, setAddTodoLoading] = useState(false);
   const [todos, setTodos] = useState([]);
