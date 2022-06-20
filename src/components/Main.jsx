@@ -96,9 +96,9 @@ const Main = () => {
                 setLatestTodoData({ ...latestTodoData, title: e.target.value })
               }
               onKeyUp={(e) => {
-                if (e.key === "Enter") {
-                  addTodo();
-                }
+               if(latestTodoData.title.length > 0 && e.key === "Enter"){
+                 addTodo();
+               }
               }}
               value={latestTodoData.title}
               type="text"
@@ -107,6 +107,7 @@ const Main = () => {
             />
             <button
               onClick={addTodo}
+              disabled={isAddTodoLoading || !latestTodoData.title}
               className="bg-amber-700 text-white px-6 py-2 rounded-sm hover:bg-amber-800 transition-all duration-300 ease-linear ml-3"
             >
               {isAddTodoLoading ? <Loader /> : "ADD"}

@@ -11,3 +11,10 @@
 .style-scrollbar::-webkit-scrollbar-track {
   background: #cfcaca;
 }
+
+
+button button:disabled,
+button[disabled] {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
