@@ -1,6 +1,11 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { LIVE_API_URL } from "../ApiServices";
+import {
+  COMPLETE_TODO_API,
+  DELETE_TODO_API,
+  ADD_TODO_API,
+  GET_TODO_LIST_API,
+} from "../ApiServices";
 
 export function useCrud() {
   const initialState = {
@@ -19,7 +24,7 @@ export function useCrud() {
   useEffect(() => {
     setLoading(true);
     axios
-      .get(`${LIVE_API_URL}/todo`)
+      .get(GET_TODO_LIST_API)
       .then((res) => {
         setTodos(res.data.todos);
         setLoading(false);
@@ -34,7 +39,7 @@ export function useCrud() {
   const addTodo = () => {
     setAddTodoLoading(true);
     axios
-      .post(`${LIVE_API_URL}/add/todo`, latestTodoData)
+      .post(ADD_TODO_API, latestTodoData)
       .then((res) => {
         setAddTodoLoading(false);
         setTodos([res.data.data, ...todos]);
@@ -50,8 +55,8 @@ export function useCrud() {
   // DELETE TODO
   const deleteToDo = (id) => {
     axios
-      .delete(`${LIVE_API_URL}/delete/todo/${id}`)
-      .then((res) => {
+      .delete(`${DELETE_TODO_API}/${id}`)
+      .then(() => {
         const newTodos = todos.filter((todo) => todo._id !== id);
         setTodos(newTodos);
       })
@@ -63,7 +68,7 @@ export function useCrud() {
   // CHECK UNCHECK TODO
   const completeToDo = (id) => {
     axios
-      .put(`${LIVE_API_URL}/complete/todo/${id}`)
+      .put(`${COMPLETE_TODO_API}/${id}`)
       .then((res) => {
         const newTodos = todos.map((todo) => {
           if (todo._id === id) {

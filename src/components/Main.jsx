@@ -1,6 +1,6 @@
 import React from "react";
 import { useCrud } from "../hooks/useCrud";
-import Loader from "./Loader";
+import Loader from "./common/Loader";
 
 const Main = () => {
   const {
