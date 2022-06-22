@@ -1,91 +1,21 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
+import { useCrud } from "../hooks/useCrud";
 import Loader from "./Loader";
-import axios from "axios";
 
 const Main = () => {
-  const initialState = {
-    title: "",
-    completed: false,
-    created_at: new Date().toLocaleString(),
-    updated_at: new Date().toLocaleString(),
-  };
-  // const APIURL = "http://192.168.43.220:4000/api/v1";
-  const APIURL = "https://task-node-react.herokuapp.com/api/v1";
-  const [isLoading, setLoading] = useState(false);
-  const [isAddTodoLoading, setAddTodoLoading] = useState(false);
-  const [todos, setTodos] = useState([]);
-
-  const [latestTodoData, setLatestTodoData] = useState(initialState);
-
-  // GET TO DO LIST
-  useEffect(() => {
-    setLoading(true);
-    axios
-      .get(`${APIURL}/todo`)
-      .then((res) => {
-        setTodos(res.data.todos);
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.log(err);
-        setLoading(false);
-      });
-  }, []);
-
-  // ADD TODO TO DATABASE
-  const addTodo = () => {
-    setAddTodoLoading(true);
-    axios
-      .post(`${APIURL}/add/todo`, latestTodoData)
-      .then((res) => {
-        setAddTodoLoading(false);
-        setTodos([res.data.data, ...todos]);
-        setLatestTodoData(initialState);
-      })
-      .catch((err) => {
-        setAddTodoLoading(false);
-        setLatestTodoData(initialState);
-        console.log(err);
-      });
-  };
-
-  // DELETE TODO
-  const deleteToDo = (id) => {
-    axios
-      .delete(`${APIURL}/delete/todo/${id}`)
-      .then((res) => {
-        const newTodos = todos.filter((todo) => todo._id !== id);
-        setTodos(newTodos);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
-  // CHECK UNCHECK TODO
-  const completeToDo = (id) => {
-    axios
-      .put(`${APIURL}/complete/todo/${id}`)
-      .then((res) => {
-        const newTodos = todos.map((todo) => {
-          if (todo._id === id) {
-            todo.completed = !todo.completed;
-          }
-          return todo;
-        });
-
-        console.log(newTodos, "newTodos");
-        setTodos(newTodos);
-      })
-      .catch((err) => {
-        setLoading(false);
-        console.log(err);
-      });
-  };
+  const {
+    isLoading,
+    isAddTodoLoading,
+    completeToDo,
+    deleteToDo,
+    todos,
+    addTodo,
+    latestTodoData,
+    setLatestTodoData,
+  } = useCrud();
 
   return (
     <>
-      {console.log(todos, "todos")}
       <div className="h-screen w-full flex justify-center items-center bg-amber-500">
         <div className="max-w-xl w-full bg-white rounded-lg p-5 sm:p-6">
           <h1 className="font-bold mb-4 text-black text-xl">
@@ -97,9 +27,9 @@ const Main = () => {
                 setLatestTodoData({ ...latestTodoData, title: e.target.value })
               }
               onKeyUp={(e) => {
-               if(latestTodoData.title.length > 0 && e.key === "Enter"){
-                 addTodo();
-               }
+                if (latestTodoData.title.length > 0 && e.key === "Enter") {
+                  addTodo();
+                }
               }}
               value={latestTodoData.title}
               type="text"
