@@ -1,36 +1,12 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { LOGIN_API } from "../ApiServices";
+import { useAuthProvider } from "../contexts/AuthProvider";
 import Loader from "./common/Loader";
-import axios from "axios";
 
 const Login = () => {
   const navigate = useNavigate();
 
-  const initialState = {
-    email: "",
-    password: "",
-  };
-
-  const [login, setLogin] = useState(initialState);
-  const [isLoading, setLoading] = useState(false);
-
-  const handleLogin = (e) => {
-    e.preventDefault();
-    setLoading(true);
-    axios
-      .post(LOGIN_API, login)
-      .then((res) => {
-        localStorage.setItem("tarn-front-token", res.data.token);
-        setLoading(false);
-        setLogin(initialState);
-        navigate("/");
-      })
-      .catch((err) => {
-        setLoading(false);
-        console.log(err);
-      });
-  };
+  const { handleLogin, isLoading, setLogin, login } = useAuthProvider();
 
   return (
     <>
@@ -43,10 +19,10 @@ const Login = () => {
             LOGIN to NODE + REACT APP
           </h1>
           <input
-            onChange={(e) => setLogin({ ...login, email: e.target.value })}
             value={login.email}
+            onChange={(e) => setLogin({ ...login, email: e.target.value })}
             required
-            type="text"
+            type="email"
             placeholder="Enter your Email..."
             className="bg-amber-400 rounded-sm px-4 py-2  w-full text-black outline-0 placeholder-gray-700"
           />
