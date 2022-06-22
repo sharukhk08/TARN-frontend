@@ -2,6 +2,7 @@ export const LOCAL_API_URL = "http://192.168.43.220:4000/";
 export const LIVE_API_URL = "https://task-node-react.herokuapp.com/";
 export const BASE_API_URL = `${LOCAL_API_URL}api/v1`;
 
+export const CHECK_AUTH_API = `${BASE_API_URL}/me`;
 export const LOGIN_API = `${BASE_API_URL}/login`;
 export const SIGNUP_API = `${BASE_API_URL}/signup`;
 export const GET_TODO_LIST_API = `${BASE_API_URL}/todo`;

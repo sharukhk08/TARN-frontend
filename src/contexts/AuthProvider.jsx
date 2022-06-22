@@ -1,7 +1,7 @@
-import { createContext, useContext, useMemo, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { LOGIN_API } from "../ApiServices";
+import { LOGIN_API, CHECK_AUTH_API } from "../ApiServices";
 
 const AuthProviderContext = createContext();
 
@@ -10,18 +10,37 @@ export function useAuthProvider() {
 }
 
 export default function AuthProvider({ children }) {
+  const initialState = {
+    email: "",
+    password: "",
+  };
   const token = localStorage.getItem("tarn-front-token");
   const [isAuth, setAuth] = useState(false);
   const [user, setUser] = useState({});
   const navigate = useNavigate();
 
-  const initialState = {
-    email: "",
-    password: "",
-  };
-
   const [login, setLogin] = useState(initialState);
   const [isLoading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const headers = {
+      Authorization: `Bearer ${localStorage.getItem("tarn-front-token")}`,
+    };
+    console.log(headers);
+    if (headers.Authorization) {
+      axios
+        .post(CHECK_AUTH_API, headers)
+        .then((res) => {
+          setUser(res.data.user);
+          setAuth(true);
+          navigate("/");
+        })
+        .catch((err) => {
+          setLoading(false);
+          console.log(err);
+        });
+    }
+  }, []);
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -29,7 +48,7 @@ export default function AuthProvider({ children }) {
     axios
       .post(LOGIN_API, login)
       .then((res) => {
-        localStorage.setItem("tarn-front-token", res.data.token);
+        localStorage.setItem("tarn-front-token", res.data.accessToken);
         setLoading(false);
         console.log(res);
         setUser(res.data.user);
