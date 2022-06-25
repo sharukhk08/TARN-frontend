@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { LOGIN_API, CHECK_AUTH_API } from "../ApiServices";
+import { LOGIN_API, CHECK_AUTH_API, SIGNUP_API } from "../ApiServices";
 
 const AuthProviderContext = createContext();
 
@@ -14,6 +14,11 @@ export default function AuthProvider({ children }) {
     email: "",
     password: "",
   };
+  const signupinitialState = {
+    name: "",
+    email: "",
+    password: "",
+  };
   const token = localStorage.getItem("tarn-front-token");
   const [isAuth, setAuth] = useState(false);
   const [user, setUser] = useState({});
@@ -23,13 +28,16 @@ export default function AuthProvider({ children }) {
   const [isLoading, setLoading] = useState(false);
   const [isPrivateLoading, setPrivateLoading] = useState(true);
 
+  const [signup, setSignup] = useState(signupinitialState);
+  const [isSignUpLoading, setSignUpLoading] = useState(false);
+
   useEffect(() => {
     setPrivateLoading(true);
     const headers = {
       token: `${localStorage.getItem("tarn-front-token")}`,
     };
     console.log(headers);
-    if (headers.token) {
+    if (headers.token !== "null") {
       axios
         .post(CHECK_AUTH_API, headers)
         .then((res) => {
@@ -64,6 +72,25 @@ export default function AuthProvider({ children }) {
       });
   };
 
+  const handleSignup = (e) => {
+    e.preventDefault();
+    setLoading(true);
+    axios
+      .post(SIGNUP_API, signup)
+      .then((res) => {
+        console.log(res);
+        localStorage.setItem("tarn-front-token", res.data.token);
+        setUser(res.data.user);
+        setSignUpLoading(false);
+        setAuth(true);
+        setPrivateLoading(false);
+        navigate("/");
+      })
+      .catch((err) => {
+        setSignUpLoading(false);
+        console.log(err);
+      });
+  };
   // call this function to sign out logged in user
   function logout() {
     setUser({});
@@ -81,6 +108,10 @@ export default function AuthProvider({ children }) {
     login,
     isAuth,
     isPrivateLoading,
+    handleSignup,
+    isSignUpLoading,
+    signup,
+    setSignup,
   };
   return (
     <AuthProviderContext.Provider value={value}>

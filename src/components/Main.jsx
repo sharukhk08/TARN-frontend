@@ -59,7 +59,7 @@ const Main = () => {
               }
               onKeyUp={(e) => {
                 if (latestTodoData.title.length > 0 && e.key === "Enter") {
-                  addTodo();
+                  addTodo(user._id);
                 }
               }}
               value={latestTodoData.title}

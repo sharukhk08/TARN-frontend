@@ -1,38 +1,13 @@
-import React, { useState } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
-import { SIGNUP_API } from "../ApiServices";
 import Loader from "./common/Loader";
-import axios from "axios";
+import { useAuthProvider } from "../contexts/AuthProvider";
 
 const SignUp = () => {
   const navigate = useNavigate();
 
-  const initialState = {
-    name: "",
-    email: "",
-    password: "",
-  };
-
-  const [signup, setSignup] = useState(initialState);
-  const [isLoading, setLoading] = useState(false);
-
-  const handleSignup = (e) => {
-    e.preventDefault();
-    setLoading(true);
-    axios
-      .post(SIGNUP_API, signup)
-      .then((res) => {
-        localStorage.setItem("tarn-front-token", res.data.token);
-        setLoading(false);
-        setSignup(initialState);
-        navigate("/");
-      })
-      .catch((err) => {
-        setLoading(false);
-        console.log(err);
-      });
-  };
-
+  const { handleSignup, isSignUpLoading, signup, setSignup } =
+    useAuthProvider();
   return (
     <>
       <div className="h-screen w-full flex justify-center items-center bg-amber-500">
@@ -71,7 +46,7 @@ const SignUp = () => {
             type="submit"
             className="h-12 flex items-center justify-center w-full bg-black text-white px-4 sm:px-6 py-2 rounded-sm hover:bg-slate-800 transition-all duration-300 ease-linear"
           >
-            {isLoading ? <Loader /> : "SIGN UP"}
+            {isSignUpLoading ? <Loader /> : "SIGN UP"}
           </button>
           <p
             onClick={() => navigate("/login")}

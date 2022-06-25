@@ -13,6 +13,7 @@ export function useCrud() {
     completed: false,
     created_at: new Date().toLocaleString(),
     updated_at: new Date().toLocaleString(),
+    userId: "",
   };
 
   const [isLoading, setLoading] = useState(false);
@@ -42,20 +43,26 @@ export function useCrud() {
   }, []);
 
   // ADD TODO TO DATABASE
-  const addTodo = () => {
-    setAddTodoLoading(true);
-    axios
-      .post(ADD_TODO_API, latestTodoData, { headers })
-      .then((res) => {
-        setAddTodoLoading(false);
-        setTodos([res.data.data, ...todos]);
-        setLatestTodoData(initialState);
-      })
-      .catch((err) => {
-        setAddTodoLoading(false);
-        setLatestTodoData(initialState);
-        console.log(err);
-      });
+  const addTodo = (_id) => {
+    setLatestTodoData((prevState) => ({
+      ...prevState,
+      userId: _id,
+    }));
+    if (latestTodoData.userId) {
+      setAddTodoLoading(true);
+      axios
+        .post(ADD_TODO_API, latestTodoData, { headers })
+        .then((res) => {
+          setAddTodoLoading(false);
+          setTodos([res.data.data, ...todos]);
+          setLatestTodoData(initialState);
+        })
+        .catch((err) => {
+          setAddTodoLoading(false);
+          setLatestTodoData(initialState);
+          console.log(err);
+        });
+    }
   };
 
   // DELETE TODO
