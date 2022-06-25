@@ -24,10 +24,10 @@ export default function AuthProvider({ children }) {
 
   useEffect(() => {
     const headers = {
-      Authorization: `Bearer ${localStorage.getItem("tarn-front-token")}`,
+      token: `${localStorage.getItem("tarn-front-token")}`,
     };
     console.log(headers);
-    if (headers.Authorization) {
+    if (headers.token) {
       axios
         .post(CHECK_AUTH_API, headers)
         .then((res) => {
