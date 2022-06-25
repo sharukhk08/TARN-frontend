@@ -65,10 +65,12 @@ export default function AuthProvider({ children }) {
   };
 
   // call this function to sign out logged in user
-  const logout = () => {
-    setUser(null);
-    navigate("/", { replace: true });
-  };
+  function logout() {
+    setUser({});
+    setAuth(false);
+    localStorage.removeItem("tarn-front-token");
+    navigate("/login");
+  }
 
   const value = {
     user,
