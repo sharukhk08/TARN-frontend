@@ -21,8 +21,10 @@ export default function AuthProvider({ children }) {
 
   const [login, setLogin] = useState(initialState);
   const [isLoading, setLoading] = useState(false);
+  const [isPrivateLoading, setPrivateLoading] = useState(true);
 
   useEffect(() => {
+    setPrivateLoading(true);
     const headers = {
       token: `${localStorage.getItem("tarn-front-token")}`,
     };
@@ -33,10 +35,11 @@ export default function AuthProvider({ children }) {
         .then((res) => {
           setUser(res.data.user);
           setAuth(true);
+          setPrivateLoading(false);
           navigate("/");
         })
         .catch((err) => {
-          setLoading(false);
+          setPrivateLoading(false);
           console.log(err);
         });
     }
@@ -75,6 +78,7 @@ export default function AuthProvider({ children }) {
     setLogin,
     login,
     isAuth,
+    isPrivateLoading,
   };
   return (
     <AuthProviderContext.Provider value={value}>
