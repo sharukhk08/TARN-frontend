@@ -74,7 +74,7 @@ export default function AuthProvider({ children }) {
 
   const handleSignup = (e) => {
     e.preventDefault();
-    setLoading(true);
+    setSignUpLoading(true);
     axios
       .post(SIGNUP_API, signup)
       .then((res) => {
