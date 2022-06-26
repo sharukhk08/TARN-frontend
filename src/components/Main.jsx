@@ -68,7 +68,7 @@ const Main = () => {
               className="bg-amber-400 rounded-sm px-4 py-2  w-full text-black outline-0 placeholder-gray-700"
             />
             <button
-              onClick={addTodo}
+              onClick={() => addTodo(user._id)}
               disabled={isAddTodoLoading || !latestTodoData.title}
               className="bg-amber-700 text-white px-6 py-2 rounded-sm hover:bg-amber-800 transition-all duration-300 ease-linear ml-3"
             >

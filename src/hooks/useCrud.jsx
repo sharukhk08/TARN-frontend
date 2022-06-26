@@ -44,25 +44,21 @@ export function useCrud() {
 
   // ADD TODO TO DATABASE
   const addTodo = (_id) => {
-    setLatestTodoData((prevState) => ({
-      ...prevState,
-      userId: _id,
-    }));
-    if (latestTodoData.userId) {
-      setAddTodoLoading(true);
-      axios
-        .post(ADD_TODO_API, latestTodoData, { headers })
-        .then((res) => {
-          setAddTodoLoading(false);
-          setTodos([res.data.data, ...todos]);
-          setLatestTodoData(initialState);
-        })
-        .catch((err) => {
-          setAddTodoLoading(false);
-          setLatestTodoData(initialState);
-          console.log(err);
-        });
-    }
+    console.log(_id);
+    Object.assign(latestTodoData, { userId: _id });
+    setAddTodoLoading(true);
+    axios
+      .post(ADD_TODO_API, latestTodoData, { headers })
+      .then((res) => {
+        setAddTodoLoading(false);
+        setTodos([res.data.data, ...todos]);
+        setLatestTodoData(initialState);
+      })
+      .catch((err) => {
+        setAddTodoLoading(false);
+        setLatestTodoData(initialState);
+        console.log(err);
+      });
   };
 
   // DELETE TODO
@@ -81,7 +77,7 @@ export function useCrud() {
   // CHECK UNCHECK TODO
   const completeToDo = (id) => {
     axios
-      .put(`${COMPLETE_TODO_API}/${id}`, { headers })
+      .put(`${COMPLETE_TODO_API}/${id}`, headers)
       .then((res) => {
         const newTodos = todos.map((todo) => {
           if (todo._id === id) {
