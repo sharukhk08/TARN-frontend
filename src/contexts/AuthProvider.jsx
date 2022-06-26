@@ -32,7 +32,6 @@ export default function AuthProvider({ children }) {
   const [isSignUpLoading, setSignUpLoading] = useState(false);
 
   useEffect(() => {
-    setPrivateLoading(true);
     const headers = {
       token: `${localStorage.getItem("tarn-front-token")}`,
     };
@@ -50,6 +49,8 @@ export default function AuthProvider({ children }) {
           setPrivateLoading(false);
           console.log(err);
         });
+    } else {
+      setPrivateLoading(false);
     }
   }, []);
 
