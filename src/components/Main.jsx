@@ -43,7 +43,7 @@ const Main = () => {
               } dropdown-nav `}
             >
               <li>Mail : {user.email}</li>
-              <li>Total TODO : 10</li>
+              <li>Total TODO : {todos.length}</li>
               <li onClick={logout}>LOGOUT</li>
             </ul>
           </div>

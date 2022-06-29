@@ -60,11 +60,12 @@ export default function AuthProvider({ children }) {
     axios
       .post(LOGIN_API, login)
       .then((res) => {
-        localStorage.setItem("tarn-front-token", res.data.accessToken);
+        localStorage.setItem("tarn-front-token", res.data.token);
         setLoading(false);
         console.log(res);
         setUser(res.data.user);
         setAuth(true);
+        setLogin(initialState);
         navigate("/");
       })
       .catch((err) => {
