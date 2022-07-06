@@ -35,7 +35,6 @@ export default function AuthProvider({ children }) {
     const headers = {
       token: `${localStorage.getItem("tarn-front-token")}`,
     };
-    console.log(headers);
     if (headers.token !== "null") {
       axios
         .post(CHECK_AUTH_API, headers)
@@ -62,7 +61,6 @@ export default function AuthProvider({ children }) {
       .then((res) => {
         localStorage.setItem("tarn-front-token", res.data.token);
         setLoading(false);
-        console.log(res);
         setUser(res.data.user);
         setAuth(true);
         setLogin(initialState);
@@ -81,7 +79,6 @@ export default function AuthProvider({ children }) {
     axios
       .post(SIGNUP_API, signup)
       .then((res) => {
-        console.log(res);
         localStorage.setItem("tarn-front-token", res.data.token);
         setUser(res.data.user);
         setSignUpLoading(false);

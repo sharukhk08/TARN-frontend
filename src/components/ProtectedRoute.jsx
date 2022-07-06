@@ -4,8 +4,6 @@ import PreLoader from "./common/PreLoader";
 
 export const ProtectedRoute = ({ children }) => {
   const { isAuth, isPrivateLoading } = useAuthProvider();
-  console.log(isPrivateLoading, "isPrivateLoading");
-  console.log(isAuth, "isAuth");
   if (isPrivateLoading) {
     return <PreLoader />;
   }

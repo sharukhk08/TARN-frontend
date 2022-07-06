@@ -27,7 +27,6 @@ export function useCrud() {
   // GET TO DO LIST
   useEffect(() => {
     if (headers.token) {
-      console.log(headers.token);
       setLoading(true);
       axios
         .get(GET_TODO_LIST_API, { headers })
@@ -86,7 +85,6 @@ export function useCrud() {
           return todo;
         });
 
-        console.log(newTodos, "newTodos");
         setTodos(newTodos);
       })
       .catch((err) => {
