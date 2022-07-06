@@ -19,8 +19,8 @@ export default function AuthProvider({ children }) {
     email: "",
     password: "",
   };
-  const token = localStorage.getItem("tarn-front-token");
   const [isAuth, setAuth] = useState(false);
+  const [Error, setError] = useState("");
   const [user, setUser] = useState({});
   const navigate = useNavigate();
 
@@ -71,6 +71,7 @@ export default function AuthProvider({ children }) {
       .catch((err) => {
         setLoading(false);
         console.log(err);
+        setError(err.response.data.message);
       });
   };
 
@@ -91,6 +92,7 @@ export default function AuthProvider({ children }) {
       .catch((err) => {
         setSignUpLoading(false);
         console.log(err);
+        setError(err.response.data.message);
       });
   };
   // call this function to sign out logged in user
@@ -114,6 +116,7 @@ export default function AuthProvider({ children }) {
     isSignUpLoading,
     signup,
     setSignup,
+    Error,
   };
   return (
     <AuthProviderContext.Provider value={value}>

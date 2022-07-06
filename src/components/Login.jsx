@@ -6,7 +6,7 @@ import Loader from "./common/Loader";
 const Login = () => {
   const navigate = useNavigate();
 
-  const { handleLogin, isLoading, setLogin, login } = useAuthProvider();
+  const { handleLogin, isLoading, setLogin, login, Error } = useAuthProvider();
 
   return (
     <>
@@ -34,6 +34,8 @@ const Login = () => {
             placeholder="*********"
             className="my-5 bg-amber-400 rounded-sm px-4 py-2  w-full text-black outline-0 placeholder-gray-700"
           />
+          {Error !== "" && <span className="text-red-500">{Error}</span>}
+
           <button className="w-full bg-black text-white px-4 sm:px-6 py-2 rounded-sm hover:bg-slate-800 transition-all duration-300 ease-linear">
             {isLoading ? <Loader /> : "LOGIN"}
           </button>

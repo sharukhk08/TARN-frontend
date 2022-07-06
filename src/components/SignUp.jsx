@@ -6,7 +6,7 @@ import { useAuthProvider } from "../contexts/AuthProvider";
 const SignUp = () => {
   const navigate = useNavigate();
 
-  const { handleSignup, isSignUpLoading, signup, setSignup } =
+  const { handleSignup, isSignUpLoading, signup, setSignup, Error } =
     useAuthProvider();
   return (
     <>
@@ -42,6 +42,8 @@ const SignUp = () => {
             placeholder="*********"
             className="my-5 bg-amber-400 rounded-sm px-4 py-2  w-full text-black outline-0 placeholder-gray-700"
           />
+          {Error !== "" && <span className="text-red-500">{Error}</span>}
+
           <button
             type="submit"
             className="h-12 flex items-center justify-center w-full bg-black text-white px-4 sm:px-6 py-2 rounded-sm hover:bg-slate-800 transition-all duration-300 ease-linear"
