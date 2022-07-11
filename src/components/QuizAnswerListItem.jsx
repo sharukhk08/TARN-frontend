@@ -1,9 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
-const QuizAnswerListItem = ({ setScore, ans, question }) => {
+const QuizAnswerListItem = ({
+  setInCorrectChecked,
+  inCorrectChecked,
+  setScore,
+  ans,
+  question,
+}) => {
   const [isChecked, setChecked] = useState(false);
 
   function checkAnswer(e) {
+    // setInCorrectChecked(false);
     for (let i = 0; i < question.answers.length; i++) {
       if (
         e.target.value === question.answers[i].text &&
@@ -13,6 +20,17 @@ const QuizAnswerListItem = ({ setScore, ans, question }) => {
       }
     }
   }
+
+  useEffect(() => {
+    setInCorrectChecked(false);
+  }, [question]);
+
+  useEffect(() => {
+    if (inCorrectChecked) {
+      setChecked(false);
+    }
+  }, [inCorrectChecked]);
+
   return (
     <>
       <div className="border px-5  py-4 rounded-sm mb-3">
