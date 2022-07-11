@@ -1,23 +1,18 @@
 import React from "react";
+import QuizAnswerListItem from "./QuizAnswerListItem";
 
-const QuizQuestion = ({ question }) => {
-  console.log(question);
+const QuizQuestion = ({ question, setScore }) => {
   return (
     <>
       <h2 className="text-black font-bold text-xl mb-4">{question.question}</h2>
       <form>
-        {question.answers.map((ans) => (
-          <div className="border px-5  py-4 rounded-sm mb-3">
-            <label className="block text-md font-medium leading-5 text-gray-700">
-              <input
-                className="mr-3 leading-tight"
-                type="radio"
-                name="radio-quiz"
-                value="1"
-              />
-              {ans.text}
-            </label>
-          </div>
+        {question.answers.map((ans, index) => (
+          <QuizAnswerListItem
+            setScore={setScore}
+            ans={ans}
+            question={question}
+            key={index}
+          />
         ))}
       </form>
     </>
