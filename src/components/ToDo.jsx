@@ -1,7 +1,7 @@
 import React from "react";
 import Loader from "./common/Loader";
-import { useNavigate } from "react-router-dom";
 import { useCrud } from "../hooks/useCrud";
+import { useAuthProvider } from "../contexts/AuthProvider";
 
 const ToDo = () => {
   const {
@@ -14,6 +14,7 @@ const ToDo = () => {
     latestTodoData,
     setLatestTodoData,
   } = useCrud();
+  const { user } = useAuthProvider();
 
   return (
     <>

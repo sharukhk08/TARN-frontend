@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import QuizQuestion from "./QuizQuestion";
 import ShowScore from "./ShowScore";
+import { useNavigate } from "react-router-dom";
 
 const Quiz = () => {
+  const navigate = useNavigate();
   const [inCorrectChecked, setInCorrectChecked] = useState(false);
   const [isShowScore, setShowScore] = useState(false);
   const [question, setQuestion] = useState(0);
@@ -37,11 +39,26 @@ const Quiz = () => {
     },
   ]);
 
+  const initialState = () => {
+    setInCorrectChecked(false);
+    setShowScore(false);
+    setQuestion(0);
+    setScore(0);
+  };
+
   return (
     <>
+      <div className=" absolute left-52 top-6 bg-white  rounded-sm">
+        <h6
+          onClick={() => navigate("/scoreboard")}
+          className="my-3 px-5 font-bold cursor-pointer z-1"
+        >
+          Check Scoreboard
+        </h6>
+      </div>
       <div className="max-w-xl w-full bg-white rounded-lg p-5 sm:p-6">
         {isShowScore ? (
-          <ShowScore score={score} />
+          <ShowScore score={score} initialState={initialState} />
         ) : (
           <>
             {questions && questions[question] && (
