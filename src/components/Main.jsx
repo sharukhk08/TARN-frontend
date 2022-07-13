@@ -28,7 +28,7 @@ const Main = () => {
           ></div>
         )}
 
-        <div className=" absolute left-10 top-6 bg-white  rounded-sm">
+        <div className=" absolute left-0 sm:left-10 top-6 bg-white  rounded-sm">
           {location.pathname === "/todo" ? (
             <h6
               onClick={() => navigate("/quiz")}
@@ -46,7 +46,7 @@ const Main = () => {
           )}
         </div>
 
-        <div className="user-dropdown-menu absolute right-10 top-6 bg-white  rounded-sm">
+        <div className="user-dropdown-menu absolute right-0 sm:right-10 top-6 bg-white  rounded-sm">
           <h6
             onClick={() => setDropDownShow((prevState) => !prevState)}
             className="my-3 px-5 cursor-pointer z-1"

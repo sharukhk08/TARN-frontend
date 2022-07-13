@@ -57,7 +57,7 @@ const Quiz = () => {
 
   return (
     <>
-      <div className=" absolute left-52 top-6 bg-white  rounded-sm">
+      <div className="absolute left-0 sm:left-52 top-20 sm:top-6 bg-white  rounded-sm">
         <h6
           onClick={() => navigate("/scoreboard")}
           className="my-3 px-5 font-bold cursor-pointer z-1"
