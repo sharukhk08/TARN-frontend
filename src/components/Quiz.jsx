@@ -2,8 +2,12 @@ import React, { useState } from "react";
 import QuizQuestion from "./QuizQuestion";
 import ShowScore from "./ShowScore";
 import { useNavigate } from "react-router-dom";
+import useQuiz from "../hooks/useQuiz";
+import { useAuthProvider } from "../contexts/AuthProvider";
 
 const Quiz = () => {
+  const { user } = useAuthProvider();
+  const { addScore } = useQuiz();
   const navigate = useNavigate();
   const [inCorrectChecked, setInCorrectChecked] = useState(false);
   const [isShowScore, setShowScore] = useState(false);
@@ -46,6 +50,11 @@ const Quiz = () => {
     setScore(0);
   };
 
+  const handleFinish = () => {
+    setShowScore(true);
+    addScore(score, user._id);
+  };
+
   return (
     <>
       <div className=" absolute left-52 top-6 bg-white  rounded-sm">
@@ -84,7 +93,7 @@ const Quiz = () => {
                   setInCorrectChecked(true);
                   questions.length !== question + 1
                     ? setQuestion((prev) => prev + 1)
-                    : setShowScore(true);
+                    : handleFinish();
                 }}
                 className="bg-amber-700 text-white px-6 py-2 rounded-sm hover:bg-amber-800 transition-all duration-300 ease-linear ml-3"
               >
