@@ -16,6 +16,8 @@ export function useCrud() {
     userId: "",
   };
 
+  const [deletedItemId, setDeleteItemId] = useState(null);
+  const [isDeleteLoading, setDeleteLoading] = useState(false);
   const [isLoading, setLoading] = useState(false);
   const [isAddTodoLoading, setAddTodoLoading] = useState(false);
   const [todos, setTodos] = useState([]);
@@ -62,11 +64,13 @@ export function useCrud() {
 
   // DELETE TODO
   const deleteToDo = (id) => {
+    setDeleteItemId(id);
     axios
       .delete(`${DELETE_TODO_API}/${id}`, { headers })
       .then(() => {
         const newTodos = todos.filter((todo) => todo._id !== id);
         setTodos(newTodos);
+        setDeleteItemId(null);
       })
       .catch((err) => {
         console.log(err);
@@ -75,25 +79,23 @@ export function useCrud() {
 
   // CHECK UNCHECK TODO
   const completeToDo = (id) => {
+    const newTodos = todos.map((todo) => {
+      if (todo._id === id) {
+        todo.completed = !todo.completed;
+      }
+      return todo;
+    });
+    setTodos(newTodos);
     axios
       .put(`${COMPLETE_TODO_API}/${id}`, headers)
-      .then((res) => {
-        const newTodos = todos.map((todo) => {
-          if (todo._id === id) {
-            todo.completed = !todo.completed;
-          }
-          return todo;
-        });
-
-        setTodos(newTodos);
-      })
+      .then(() => {})
       .catch((err) => {
-        setLoading(false);
         console.log(err);
       });
   };
 
   return {
+    isDeleteLoading,
     isLoading,
     isAddTodoLoading,
     completeToDo,
@@ -102,5 +104,6 @@ export function useCrud() {
     addTodo,
     latestTodoData,
     setLatestTodoData,
+    deletedItemId,
   };
 }

@@ -21,6 +21,7 @@ export default function AuthProvider({ children }) {
   };
   const [isAuth, setAuth] = useState(false);
   const [Error, setError] = useState("");
+  const [isValidate, setValidate] = useState(true);
   const [user, setUser] = useState({});
   const navigate = useNavigate();
 
@@ -53,24 +54,28 @@ export default function AuthProvider({ children }) {
     }
   }, []);
 
-  const handleLogin = (e) => {
-    e.preventDefault();
-    setLoading(true);
-    axios
-      .post(LOGIN_API, login)
-      .then((res) => {
-        localStorage.setItem("tarn-front-token", res.data.token);
-        setLoading(false);
-        setUser(res.data.user);
-        setAuth(true);
-        setLogin(initialState);
-        navigate("/");
-      })
-      .catch((err) => {
-        setLoading(false);
-        console.log(err);
-        setError(err.response.data.message);
-      });
+  const handleLogin = () => {
+    setValidate(false);
+    if (login.email.length > 0 && login.password.length > 0) {
+      setValidate(false);
+
+      setLoading(true);
+      axios
+        .post(LOGIN_API, login)
+        .then((res) => {
+          localStorage.setItem("tarn-front-token", res.data.token);
+          setLoading(false);
+          setUser(res.data.user);
+          setAuth(true);
+          setLogin(initialState);
+          navigate("/");
+        })
+        .catch((err) => {
+          setLoading(false);
+          console.log(err);
+          setError(err.response.data.message);
+        });
+    }
   };
 
   const handleSignup = (e) => {
@@ -114,6 +119,7 @@ export default function AuthProvider({ children }) {
     signup,
     setSignup,
     Error,
+    isValidate,
   };
   return (
     <AuthProviderContext.Provider value={value}>

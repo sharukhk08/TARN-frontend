@@ -6,6 +6,7 @@ import { useAuthProvider } from "../contexts/AuthProvider";
 const ToDo = () => {
   const {
     isLoading,
+    isDeleteLoading,
     isAddTodoLoading,
     completeToDo,
     deleteToDo,
@@ -13,6 +14,7 @@ const ToDo = () => {
     addTodo,
     latestTodoData,
     setLatestTodoData,
+    deletedItemId,
   } = useCrud();
   const { user } = useAuthProvider();
 
@@ -80,7 +82,7 @@ const ToDo = () => {
                     className="bg-black text-white px-4 sm:px-6 py-2 rounded-sm hover:bg-slate-800 transition-all duration-300 ease-linear"
                     onClick={() => deleteToDo(todo._id)}
                   >
-                    Delete
+                    {deletedItemId === todo._id ? <Loader /> : "Delete"}
                   </button>
                 </li>
               ))
